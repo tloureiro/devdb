@@ -1,0 +1,30 @@
+---
+version: '3'
+
+services:
+
+  db:
+    image: mariadb
+    container_name: db
+    environment: 
+      MYSQL_USERNAME: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sample
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./dump:/dump
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8081:80
